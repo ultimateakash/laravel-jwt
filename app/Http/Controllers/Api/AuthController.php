@@ -26,7 +26,7 @@ class AuthController extends Controller
         if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        return $this->respondWithToken($token);
+        return $this->getToken($token);
     }
 
     public function getUser()
@@ -42,10 +42,10 @@ class AuthController extends Controller
 
     public function refreshToken()
     {
-        return $this->respondWithToken(auth('api')->refresh());
+        return $this->getToken(auth('api')->refresh());
     }
 
-    protected function respondWithToken($token)
+    protected function getToken($token)
     {
         return response()->json([
             'access_token' => $token,
